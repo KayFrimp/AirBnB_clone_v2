@@ -124,6 +124,7 @@ class HBNBCommand(cmd.Cmd):
         elif class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+        new_instance = HBNBCommand.classes[class_name]()
         # Form Key Value pairs with the remaining parameters
         attributes = {}
         for param in command_list[1:]:
@@ -142,13 +143,9 @@ class HBNBCommand(cmd.Cmd):
             else:
                 value = eval(value)
 
-            # key_value_pairs = {key: value}
-            attributes[key] = value
-        new_instance = HBNBCommand.classes[class_name](**attributes)
-        storage.save()
+            setattr(new_instance, key, value)
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
-
 
     def help_create(self):
         """ Help information for the create method """
