@@ -2,6 +2,12 @@
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, Table, ForeignKey
+import os
+import models
+from models.review import Review
+
+# Get storage environment varible
+storage_type = os.getenv('HBNB_TYPE_STORAGE')
 
 
 class Place(BaseModel, Base):
@@ -18,3 +24,15 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, default=0, nullable=False)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+
+    if storage_type == 'db':
+        reviews = relationship("Review", backref="place", cascade="delete")
+    else:
+        @property
+        def reviews(self):
+            """Getter function for Review objects"""
+            reviews = []
+            for review in list(models.storage.all(Review).calues()):
+                if review.place_id == self.id:
+                    reviews.append(review)
+            return reviews
