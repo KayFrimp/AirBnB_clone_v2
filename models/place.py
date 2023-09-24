@@ -39,8 +39,8 @@ class Place(BaseModel, Base):
             backref="place",
             cascade="all, delete")
         amenities = relationship(
-            "Amenity",
-            secondary=place_amenity_table,
+            "Amenity", secondary=place_amenity_table,
+            back_populates="place_amenities",
             viewonly=False)
     else:
         @property

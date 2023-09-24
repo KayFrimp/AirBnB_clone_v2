@@ -8,11 +8,9 @@ from models.place import place_amenity_table
 
 class Amenity(BaseModel, Base):
     """Amenity Class definition"""
-    __tablename__ = "amenities"
+
+    __tablename__ = 'amenities'
 
     name = Column(String(128), nullable=False)
 
-    place_amenities = relationship(
-        "Place",
-        secondary=place_amenity_table,
-        back_populates="amenities")
+    place_amenities = relationship("Place", secondary=place_amenity_table)
