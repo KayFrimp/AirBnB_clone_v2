@@ -27,7 +27,7 @@ config_file="/etc/nginx/sites-available/default"
 nginx_config="location /hbnb_static/ {\n    alias $current_link/;\n}\n"
 
 if ! grep -q 'location /hbnb_static/' "$config_file"; then
-    sudo sed -i "/server {/a $nginx_config" "$config_file"
+    sudo sed -i "/^[^#]*server {/a    $nginx_config" "$config_file"
 fi
 
 sudo service nginx restart
